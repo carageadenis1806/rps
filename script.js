@@ -1,4 +1,8 @@
+// ALL-AROUND VARIABLES
 
+let playerScore = 0;
+let computerScore = 0;
+const messageContainer = document.querySelector('.message');
 
 // COMPUTER'S CHOICE
 function getComputerChoice() {
@@ -16,66 +20,94 @@ function getComputerChoice() {
     }
 }
 
+
 // SINGLE ROUND
 function playRound(playerSelection, computerSelection) {
 
+    let playerWin = 'You win! ' + playerSelection + ' beats ' + computerSelection + ' !';
+    let computerWin = 'You lose! ' + computerSelection + ' beats ' + playerSelection + ' !';
+    let draw = 'Draw';
+
     if(playerSelection == 'Rock' && computerSelection == 'Paper') {
-        let result = 'You lose! Paper beats Rock!'
-        return result;
+        computerScore += 1;
+        return computerWin;
     }else if(playerSelection == 'Rock' && computerSelection == 'Scissors') {
-        let result = 'You Win! Rock beats Scissors!';
-        return result;
+        playerScore += 1;
+        return playerWin;
     }else if(playerSelection == 'Rock' && computerSelection == 'Rock') {
-        let result = 'Draw!';
-        return result;
+       return draw;
     }else if(playerSelection == 'Paper' && computerSelection == 'Rock') {
-        let result = 'You win! Paper beats Rock!';
-        return result;
+        playerScore += 1;
+        return playerWin;
     }else if(playerSelection == 'Paper' && computerSelection == 'Scissors') {
-        let result = 'You lose! Scissors beats Paper!';
-        return result;
+        computerScore += 1;
+        return computerWin;
     }else if(playerSelection == 'Paper' && computerSelection == 'Paper') {
-        let result = 'Draw!';
-        return result;
+        return draw;
     }else if(playerSelection == 'Scissors' && computerSelection == 'Paper') {
-        let result = 'You win! Scissors beats Paper!';
-        return result;
+        playerScore += 1;
+        return playerWin;
     }else if(playerSelection == 'Scissors' && computerSelection == 'Rock') {
-        let result = 'You lose! Rock beats Scissors!';
-        return result;
+        computerScore += 1;
+        return computerWin;
     }else if(playerSelection == 'Scissors' && computerSelection == 'Scissors') {
-        let result = 'Draw!';
-        return result;
+        return draw;
     }
 
 }
 
 
-// 5 ROUND GAME FUNCTION
-function game() {
 
-    // DECLARING VARIABLES
-    const computerSelection = getComputerChoice();
-    let playerScore = 0;
-    let computerScore = 0;
+// GAME FUNCTION 
 
-            for(i = 0; i < 5; i++) {
-                const playerSelection = prompt('Select your choice: ');
-                let round = playRound(playerSelection, computerSelection);
+function game(choice) {
+    if(playerScore < 5 && computerScore < 5) {
+        let playerSelection = choice;
+        const computerSelection = getComputerChoice();
+        let roundText = playRound(playerSelection, computerSelection);
+        document.getElementById("win-message").textContent = roundText;
+        document.getElementById("playerScore").textContent = 'Player score: ' + playerScore;
+        document.getElementById("computerScore").textContent = 'Computer score: ' + computerScore;
+    }
 
-                //SCORE 
-                if(round == 'You win! Rock beats Scissors!' || round == 'You win! Paper beats Rock!' || round == 'You win! Scissors beats Paper!') {
-                    playerScore += 1;
-                }else if(round == 'You lose! Paper beats Rock!' || round == 'You lose! Scissors beats Paper!' || round == 'You lose! Rock beats Scissors!'){
-                    computerScore += 1;
-                };
-
-                let score = round + '  Player has: ' + playerScore + ' points /// '+ 'Computer has: ' + computerScore + ' points.'
-
-                console.log(score);
-               
-
-            }
+    if(playerScore == 5) {
+        document.getElementById('win-message').textContent = 'You beat the Computer!';
+    }
+    if (computerScore == 5) {
+        document.getElementById('win-message').textContent = 'Beep Boop! The Computer Wins The Game!!';
+}
 
 }
 
+// adding event listeners to buttons
+let rockButton = document.querySelector('#rock');
+let paperButton = document.querySelector('#paper');
+let scissorsButton = document.querySelector('#scissors');
+
+
+rockButton.addEventListener('click', () => {
+    game('Rock');
+});
+
+paperButton.addEventListener('click', () => {
+    game('Paper');
+});
+
+scissorsButton.addEventListener('click', () => {
+    game('Scissors');
+});
+
+               
+  //SCORE 
+  /*
+  if(result == 'You win! Rock beats Scissors!' || result == 'You win! Paper beats Rock!' || result == 'You win! Scissors beats Paper!') {
+    playerScore += 1;
+}else if(result == 'You lose! Paper beats Rock!' || result == 'You lose! Scissors beats Paper!' || result == 'You lose! Rock beats Scissors!'){
+    computerScore += 1;
+};
+
+let score = result + '  Player has: ' + playerScore + ' points /// '+ 'Computer has: ' + computerScore + ' points.'
+
+console.log(score);
+
+*/
